@@ -124,8 +124,6 @@ class CreateEmployeesAndPermitsTable extends Migration
             $table->decimal('salario_nominal', 10, 0);
             $table->date('fecha_nacimiento');
             $table->string('direccion_empleado', 250)->nullable();
-            $table->string('tel_empleado', 100)->nullable();
-            $table->string('email_empleado', 100)->nullable();
             $table->date('fecha_ingreso');
             $table->date('fecha_retiro')->nullable();
             $table->string('role', 250)->nullable();
@@ -136,6 +134,7 @@ class CreateEmployeesAndPermitsTable extends Migration
             $table->unsignedInteger('id_employee_type');
             $table->unsignedInteger('id_document_type');
             $table->unsignedInteger('id_rrhh_charge');
+            $table->unsignedInteger('id_contact_entity');
             // $table->unsignedInteger('id_cost_center');
             $table->foreign('id_genre')->references('id_genre')->on('genres');
             $table->foreign('id_marital_state')->references('id')->on('marital_state');
@@ -143,6 +142,7 @@ class CreateEmployeesAndPermitsTable extends Migration
             $table->foreign('id_employee_type')->references('id')->on('employees_types');
             $table->foreign('id_document_type')->references('id')->on('documents_types');
             $table->foreign('id_rrhh_charge')->references('id')->on('rrhh_charges');
+            $table->foreign('id_contact_entity')->references('id')->on('contact_entities');
             // $table->foreign('id_cost_center')->references('id')->on('costs_centers');
             $table->primary('num_doc');
         });

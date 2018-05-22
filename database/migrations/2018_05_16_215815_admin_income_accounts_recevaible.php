@@ -14,7 +14,7 @@ class AdminIncomeAccountsRecevaible extends Migration
     public function up()
     {
       // Table for "Corte de caja" Module
-      Schema::create('corte_caja', function (Blueprint $table) {
+      Schema::create('corte_cajas', function (Blueprint $table) {
           $table->increments('id');
           $table->year('ref_ano');
           $table->integer('ref_corr');
@@ -30,12 +30,22 @@ class AdminIncomeAccountsRecevaible extends Migration
           $table->foreign('num_doc')->references('num_doc')->on('employees');
       });
 
+      // Table for "income_type_states" Module
+      Schema::create('income_type_states', function (Blueprint $table) {
+          $table->increments('id');
+          $table->string('name_state', 80);
+          $table->string('description_state', 200);
+          $table->unsignedInteger('id_income_type_state');
+          $table->foreign('id_income_type_state')->references('id')->on('income_type_states');
+      });
+
       // Table for "income_types" Module
       Schema::create('income_types', function (Blueprint $table) {
           $table->increments('id');
           $table->string('name_type', 80);
           $table->string('description_type', 200);
-          $table->string('description_type', 50);
+          $table->unsignedInteger('id_income_type_state');
+          $table->foreign('id_income_type_state')->references('id')->on('income_type_states');
       });
 
       // Table for "incomes" Module
@@ -51,7 +61,6 @@ class AdminIncomeAccountsRecevaible extends Migration
           $table->decimal('ext_exp', 10, 2);
           $table->decimal('retencion', 10, 2);
           $table->decimal('percibido', 10, 2);
-          $table->decimal('ext_exp', 10, 2);
           $table->decimal('subtotal', 10, 2);
           $table->unsignedInteger('id_income_type');
           $table->unsignedInteger('id_corte_caja');
@@ -67,6 +76,9 @@ class AdminIncomeAccountsRecevaible extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('corte_caja');
+        Schema::dropIfExists('corte_cajas');
+        Schema::dropIfExists('incomes');
+        Schema::dropIfExists('income_types');
+        Schema::dropIfExists('income_type_states');
     }
 }
